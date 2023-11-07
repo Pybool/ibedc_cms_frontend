@@ -1,0 +1,206 @@
+<div class="nk-app-root">
+    <div *ngIf="is_authenticated" class="nk-sidebar is-compact" data-content="sidebarMenu">
+        <div class="nk-sidebar-main is-light">
+            <div class="nk-sidebar-inner" data-simplebar="init">
+                <div class="simplebar-wrapper" style="margin: -24px -28px -32px; height:70vh;">
+                    <div class="simplebar-height-auto-observer-wrapper">
+                        <div class="simplebar-height-auto-observer"></div>
+                    </div>
+                    <div class="simplebar-mask">
+                        <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
+                            <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content" style="height: auto; overflow: hidden;">
+                                <div class="simplebar-content" style="padding: 24px 28px 32px;">
+                                    
+                                    <div class="nk-menu-content menu-active" data-content="navPages">
+                                        <h5 class="title">IBEDC CMS</h5> 
+                                        <ul class="nk-menu link-list-opt">
+                                            <li class="nk-menu-item"><a href="#" [routerLink]="['/dashboard']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-dashboard"></em></span><span class="nk-menu-text">Dashboard</span></a></li>
+                                            <li class="nk-menu-item has-sub">
+                                                <a href="/customers/prepaid" (click)="prv($event)" class="nk-menu-link nk-menu-toggle" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-users"></em></span><span class="nk-menu-text">Customers</span></a>
+                                                <ul class="nk-menu-sub" style="display: none;">
+                                                    <li class="nk-menu-item"><a href="javascript:void(0)" [routerLink]="['/customers/prepaid']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Customers</span></a></li>
+                                                    <li *ngIf="can_approve" class="nk-menu-item"><a href="#" [routerLink]="['/cms/customers/crmd']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">CRMD</span></a></li>
+                                                    <li *ngIf="can_approve_caad" class="nk-menu-item"><a href="#" [routerLink]="['/cms/caadlist']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">CAAD</span></a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="nk-menu-item"><a href="#" [routerLink]="['cms/customers/billing']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-mobile"></em></span><span class="nk-menu-text">Billing History</span></a></li>
+                                            <li class="nk-menu-item"><a href="#" [routerLink]="['cms/customers/ecmi/payments']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-wifi"></em></span><span class="nk-menu-text">Payment History</span></a></li>                                            
+
+                                            <li class="nk-menu-item"><a href="#" [routerLink]="['cms/energy-readings']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-power"></em></span><span class="nk-menu-text">Energy Readings</span></a></li>                                            
+
+                                            <li *ngIf="is_admin" class="nk-menu-item has-sub current-page">
+                                                <a href="/admin/users" class="nk-menu-link nk-menu-toggle" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-users"></em></span><span class="nk-menu-text">Administration</span></a>
+                                                <ul class="nk-menu-sub" style="display: none;">
+                                                    <li class="nk-menu-item"><a href="#" [routerLink]="['admin/users']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Manage Users</span></a></li>
+                                                    <li class="nk-menu-item active current-page"><a href="#" [routerLink]="['admin/locations']" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Manage Locations</span></a></li>
+                                                    <li class="nk-menu-item active current-page"><a [routerLink]="['admin/configurations/customer-configurations']" href="#" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-text">Configurations</span></a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="nk-menu-item"><a href="javascript:void(0)" (click)="logout()" class="nk-menu-link" data-bs-original-title="" title=""><span class="nk-menu-icon"><em class="icon ni ni-signout"></em></span><span class="nk-menu-text">Sign Out</span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="simplebar-placeholder" style="width: auto; height: 503px;"></div>
+                </div>
+                <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
+                    <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
+                </div>
+                <div class="simplebar-track simplebar-vertical" style="visibility: hidden;">
+                    <div class="simplebar-scrollbar" style="height: 0px; display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nk-main ">
+        <div class="nk-wrap parent-container">
+            <!-- <div *ngIf="is_authenticated" class="nk-header nk-header-fixed nk-header-fluid">
+                <div class="container-fluid">
+                    <div class="nk-header-wrap">
+                        <div class="nk-menu-trigger d-xl-none ms-n1"><a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a></div>
+                        <div class="nk-header-brand d-xl-none"><a href="index-2.html" class="logo-link"><img class="logo-light logo-img" src="/assets/images/smarthome-logo.jpg" srcset="/demo7/images/logo2x.png 2x" alt="logo"><img class="logo-dark logo-img" src="/assets/images/smarthome-logo.jpg" srcset="/demo7/images/logo-dark2x.png 2x" alt="logo-dark"></a></div>
+                        <div *ngIf="activeSearchbar=='customers'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex">
+                            <div class="form-group searchbar-switch">
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" (change)="activateDualSearch($event)" name="reg-public" data-bs-toggle="tooltip" data-bs-placement="top" title="Toggle List and Grid Views" id="display-type">
+                                    <label class="custom-control-label" for="display-type"></label>
+                                </div>
+                            </div>
+                            <input id="search-customer-input" (keydown)="searchCustomer($event)" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a customer">
+                        </div>
+                        <div *ngIf="activeSearchbar=='payments' || activeSearchbar=='ecmipayments'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input id="payment-history-search-bar" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a payment record"></div>
+                        <div *ngIf="activeSearchbar=='billing'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input id="billing-history-search-bar" (keyup)="shallowSearchBilling($event)" type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a billing record"></div>
+                         <div *ngIf="activeSearchbar=='crmd'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input id="crmd-search-bar"  type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a crmd record"></div>
+                         <div *ngIf="activeSearchbar=='caad'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input id="caad-search-bar"  type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a caad record"></div>
+                         <div *ngIf="activeSearchbar=='customer'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input id="customer-search-bar"  type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a customer by account number"></div>
+
+                         <div *ngIf="activeSearchbar=='users'" class="nk-header-search ms-3 ms-xl-0 d-none d-md-flex"><em class="icon ni ni-search"></em><input (keydown.enter)="usersFilter($event,true)" id="user-search-bar"  type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a user by name email, region, buid, servicecenter"></div>
+                         <div  class="nk-header-tools">
+                            <ul class="nk-quick-nav">
+                                <li>
+                                    <div class="dropdown">
+                                        <a id="searchbar_filter" style="height:35px;" href="#" class="btn btn-white btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Select a Filter&nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
+                                        <div class="dropdown-menu" >
+                                          <ul *ngIf="activeSearchbar=='customers'" class="link-list-opt">
+                                             <li><a href="javascript:void(0)" (click)="searchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
+                                             <li><a href="javascript:void(0)" value = "Meter Number" name="meterno" (click)="searchBarFilter($event)">Meter Number</a></li>
+                                             <li><a href="javascript:void(0)" name="names" (click)="searchBarFilter($event)">Names</a></li>
+                                             <li><a href="javascript:void(0)" name="mobile" (click)="searchBarFilter($event)">Phone Number</a></li>
+                                             <li><a href="javascript:void(0)" name="email" (click)="searchBarFilter($event)">Email</a></li>
+                                             <li><a href="javascript:void(0)" name="address" (click)="searchBarFilter($event)">Address</a></li>
+                                             <li><a href="javascript:void(0)" name="buid" (click)="searchBarFilter($event)">Business Unit</a></li>
+                                             <li><a href="javascript:void(0)" name="servicecenter" (click)="searchBarFilter($event)">Service Centers</a></li>
+                                             <li><a href="javascript:void(0)" name="state" (click)="searchBarFilter($event)">Region</a></li>
+                                          </ul>
+                                          <ul *ngIf="activeSearchbar=='crmd'" class="link-list-opt">
+                                            <li><a href="javascript:void(0)" (click)="crmdSearchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
+                                            <li><a href="javascript:void(0)" name="names" (click)="crmdSearchBarFilter($event)">Names</a></li>
+                                            <li><a href="javascript:void(0)" name="mobile" (click)="crmdSearchBarFilter($event)">Phone Number</a></li>
+                                            <li><a href="javascript:void(0)" name="email" (click)="crmdSearchBarFilter($event)">Email</a></li>
+                                            <li><a href="javascript:void(0)" name="address" (click)="crmdSearchBarFilter($event)">Address</a></li>
+                                            <li><a href="javascript:void(0)" name="buid" (click)="crmdSearchBarFilter($event)">Business Unit</a></li>
+                                            <li><a href="javascript:void(0)" name="servicecenter" (click)="crmdSearchBarFilter($event)">Service Centers</a></li>
+                                            <li><a href="javascript:void(0)" name="state" (click)="crmdSearchBarFilter($event)">Region</a></li>
+                                            <li><a href="javascript:void(0)" name="created_by" (click)="crmdSearchBarFilter($event)">Created By</a></li>
+                                         </ul>
+                                         <ul *ngIf="activeSearchbar=='customer'" class="link-list-opt">
+                                            <li><a href="javascript:void(0)" (click)="singleCustomerSearchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
+                                         </ul>
+                                         <ul *ngIf="activeSearchbar=='caad'" class="link-list-opt">
+                                            <li><a href="javascript:void(0)" (click)="caadSearchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
+                                            <li><a href="javascript:void(0)" name="names" (click)="caadSearchBarFilter($event)">Names</a></li>
+                                            <li><a href="javascript:void(0)" name="mobile" (click)="caadSearchBarFilter($event)">Phone Number</a></li>
+                                            <li><a href="javascript:void(0)" name="email" (click)="caadSearchBarFilter($event)">Email</a></li>
+                                            <li><a href="javascript:void(0)" name="address" (click)="caadSearchBarFilter($event)">Address</a></li>
+                                            <li><a href="javascript:void(0)" name="buid" (click)="caadSearchBarFilter($event)">Business Unit</a></li>
+                                            <li><a href="javascript:void(0)" name="servicecenter" (click)="caadSearchBarFilter($event)">Service Centers</a></li>
+                                            <li><a href="javascript:void(0)" name="state" (click)="caadSearchBarFilter($event)">Region</a></li>
+                                            <li><a href="javascript:void(0)" name="created_by" (click)="caadSearchBarFilter($event)">Created By</a></li>
+                                         </ul>
+                                          <ul *ngIf="activeSearchbar=='payments'" class="link-list-opt">
+                                            <li><a href="javascript:void(0)" (click)="paymentSearchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
+                                            <li><a href="javascript:void(0)" value = "Meter Number" name="MeterNo" (click)="paymentSearchBarFilter($event)">Meter Number</a></li>
+                                            <li><a href="javascript:void(0)" value = "Customer ID" name="CustomerID" (click)="paymentSearchBarFilter($event)">Customer ID</a></li>
+                                            <li><a href="javascript:void(0)" value = "Payment ID" name="PaymentID" (click)="paymentSearchBarFilter($event)">Payment ID</a></li>
+                                            <li><a href="javascript:void(0)" value = "Bill ID" name="BillID" (click)="paymentSearchBarFilter($event)">Bill ID</a></li>
+                                            <li><a href="javascript:void(0)" value = "Payment Trans ID" name="PaymentTransactionId" (click)="paymentSearchBarFilter($event)">Payment Trans ID</a></li>
+                                            <li><a href="javascript:void(0)" value = "Receipt Number" name="receiptnumber" (click)="paymentSearchBarFilter($event)">Receipt Number</a></li>
+                                         </ul>
+                                         <ul *ngIf="activeSearchbar=='ecmipayments'" class="link-list-opt">
+                                            <li><a href="javascript:void(0)" (click)="paymentSearchBarFilter($event)" value = "Account Number" name="AccountNo">ECMI Account Number</a></li>
+                                            <li><a href="javascript:void(0)" value = "Meter Number" name="meterno" (click)="paymentSearchBarFilter($event)">Meter Number</a></li>
+                                            <li><a href="javascript:void(0)" value = "Trans Ref" name="TransRef" (click)="paymentSearchBarFilter($event)">Trans Ref</a></li>
+                                         </ul>
+                                         <ul *ngIf="activeSearchbar=='billing'" class="link-list-opt">
+                                            <li><a href="javascript:void(0)" (click)="billingSearchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
+                                            <li><a href="javascript:void(0)" name="BUName1" (click)="billingSearchBarFilter($event)">Business Unit</a></li>
+                                            <li><a href="javascript:void(0)" name="BUID" (click)="billingSearchBarFilter($event)">Business Unit Code</a></li>
+                                            <li><a href="javascript:void(0)" name="ServiceAddress1" (click)="billingSearchBarFilter($event)">Service Address 1</a></li>
+                                            <li><a href="javascript:void(0)" name="ServiceAddress2" (click)="billingSearchBarFilter($event)">Service Address 2</a></li>
+                                            <li><a href="javascript:void(0)" name="ServiceAddress3" (click)="billingSearchBarFilter($event)">Service Address 3</a></li>
+                                            <li><a href="javascript:void(0)" name="ServiceID" (click)="billingSearchBarFilter($event)">Service ID</a></li>
+                                            <li><a href="javascript:void(0)" name="TariffCode" (click)="billingSearchBarFilter($event)">Tarrif Code</a></li>
+                                         </ul>
+                                         <ul *ngIf="activeSearchbar=='users'" class="link-list-opt">
+                                          
+                                            <li><a href="javascript:void(0)" name="business_unit" (click)="usersFilter($event)">Business Units</a></li>
+                                            <li><a href="javascript:void(0)" name="servicecenter" (click)="usersFilter($event)">Service Centers</a></li>
+                                            <li><a href="javascript:void(0)" name="region" (click)="usersFilter($event)">Regions</a></li>
+                                         </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="dropdown user-dropdown">
+                                    <a href="javascript:void(0)" class="dropdown-toggle me-n1" data-bs-toggle="dropdown">
+                                        <div class="user-toggle">
+                                            <div class="user-avatar sm"><em class="icon ni ni-user-alt"></em></div>
+                                        </div>
+                                    </a>
+                                    <div style="width:400px!important;" class="dropdown-menu dropdown-menu dropdown-menu-right">
+                                        <div class="dropdown-inner user-card-wrap bg-lighter">
+                                            <div class="user-card">
+                                                <div class="user-avatar"><span>{{abbreviateName(usersName)}}</span></div>
+                                                <div class="user-info"><span class="lead-text">{{usersName}}</span><span class="sub-text">{{usersMail}}</span></div>
+                                            </div>
+                                        </div>
+                                        <div  style="width:500px!important;" class="dropdown-inner">
+                                            <ul class="link-list-opt">
+                                                <li><a style="white-space: nowrap;" *ngIf="user.permission_hierarchy == 'Business Unit'" href="javascript:void(0)"  style="width:100%;">
+                                                    {{positionCode}}: {{user.business_unit | uppercase}}
+                                                    </a>
+                                                    <a *ngIf="user.permission_hierarchy == 'Service Center'" href="javascript:void(0)"  style="width:100%;">
+                                                    {{positionCode}}: {{user.service_center | uppercase}}
+                                                    </a>
+                                                    <a *ngIf="user.permission_hierarchy == 'Region'" href="javascript:void(0)"  style="width:100%;">
+                                                    {{positionCode}}: {{user.region | uppercase}}
+                                                    </a>
+                                                    <a *ngIf="user.permission_hierarchy == 'Head Quarters'" href="javascript:void(0)"  style="width:100%;">
+                                                    {{positionCode}}: {{user.region | uppercase}}
+                                                    </a>
+                                                 </li>
+                                                 <li><a href="javascript:void(0)" ><em class="icon ni ni-signout"></em><span>Region: {{userRegion}}</span></a></li>
+                                                 <li><a href="javascript:void(0)" onclick="document.getElementById('pending_view').click()" style="width:100%;">
+                                                    <em class="icon ni ni-update"></em>CRMD Customers Board
+                                                    </a>
+                                                 </li>
+                                                 <li><a href="javascript:void(0)" (click)="logout()"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                
+                                            </ul>
+                                        </div>
+                                       
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div> -->
+            <router-outlet></router-outlet>
+            <app-approvalboard></app-approvalboard>
+            <app-notificationmodal></app-notificationmodal>
+        </div>
+    </div>    
+</div>

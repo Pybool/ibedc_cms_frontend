@@ -1,0 +1,46 @@
+<div *ngIf="type=='success'" class="modal" tabindex="-1" id="modalAlert" aria-hidden="false" style="display: block;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <a (click)="closeModal($event)" href="javascript:void(0)" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
+                <h4 id="success-title" class="nk-modal-title">{{title}}</h4>
+                <div class="nk-modal-text">
+                    <div id="success-msg" class="caption-text">{{message}}</div>
+                    <span id="success-sub-msg" class="sub-text-sm">{{subMessage}}</span>
+                </div>
+                <div class="nk-modal-action"><a  (click)="closeModal($event)" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal">OK</a></div>
+                </div>
+            </div>
+            <div class="modal-footer bg-lighter">
+                <div class="text-center w-100">
+                <p>Ensure to save all individual tabs before submission <a href="#">!!</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="type=='failure'" class="modal" tabindex="-1" id="fail-modalAlert" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <a (click)="closeModal($event)" href="javascript:closeModal('fail-modalAlert')" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                <h4 id="fail-title" class="nk-modal-title">{{title}}</h4>
+                <div class="nk-modal-text">
+                    <!-- <p id="fail-msg" class="lead">{{message}}</p> -->
+                    <div *ngIf="!msgIsArray" id="fail-msg" class="caption-text">{{message}}</div>
+                    <ul *ngIf="msgIsArray" class="link-list-opt">
+                        <li *ngFor="let kycerror of kycerrors"><a href="javascript:void(0)"  >{{kycerror}}</a></li>
+                    </ul>
+                    <p id="fail-sub-msg" class="text-soft">{{subMessage}}</p>
+                </div>
+                <div class="nk-modal-action mt-5"><a (click)="closeModal($event)" href="javascript:closeModal('fail-modalAlert')" class="btn btn-lg btn-mw " data-bs-dismiss="modal">Return</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

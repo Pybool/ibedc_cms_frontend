@@ -1,0 +1,239 @@
+
+<div style="padding-top:10px;padding-left:10px;" class="nk-block-head nk-block-head-lg">
+    <div style="width:100%;" class="nk-block-between">
+        <div style="width:100%;" class="nk-block-head-content">
+            <div style="width:100%;" class="flex-row">
+                <h4 style="width:80%;" class="nk-block-title">Customer Basic Information</h4>
+            </div>
+            <div class="nk-block-des">
+                <p>Personal info, for Ibedc Prepaid and PostPaid Customers.</p>
+            </div>
+        </div>
+    </div>
+</div><!-- .nk-block-head -->
+<div class="nk-block">
+    <div style="max-height:70vh!important;" class="nk-data data-list">
+        
+        <div class="data-head">
+            <h6 class="overline-title" t-esc="" >{{customer?.accounttype + ' Customer Basic Information'}}</h6>
+        </div>
+        <br>
+        
+        <ul style="max-height:70vh;overflow-y: auto;" class="link-list-opt">
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">Firstname</label>
+                    <p class="col-3">
+                        <span>{{customer?.firstname || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Surname</label>
+                    <p class="col-3">
+                        <span>{{customer?.surname || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    
+                    <label class="col-3">Othernames</label>
+                    <p class="col-3">
+                        <span>{{customer?.othernames || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Email</label>
+                    <p class="col-3">
+                        <span>{{customer?.email || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    
+                    <label class="col-3">Phone Number</label>
+                    <p class="col-3">
+                        <span>{{customer?.mobile || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Home Address</label>
+                    <p class="col-3">
+                        <span >
+                            <span >{{customer?.address1 || ''}}</span>
+                            <span >{{customer?.address2 || ''}}</span>
+                            <span >{{customer?.address}}</span>&nbsp;
+                            <span >{{customer?.state}}</span>
+                        </span>
+                    </p>
+                </div>
+                
+            </li>
+        </ul>
+        
+       
+        <div class="data-head">
+            <h6 class="overline-title">Account Information</h6>
+        </div>
+        <br>
+
+        
+        <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">Account Number</label>
+                    <p class="col-3" >
+                        <span>{{customer?.accountno || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Account Type</label>
+                    <p class="col-3">
+                        <span>{{customer?.accounttype || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">Meter Number</label>
+                    <p class="col-3" >
+                        <span>{{customer?.meterno || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Book Number</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.bookno || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    <label class="col-3">Old Account Number</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.oldaccountno || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Map ID</label>
+                    <p class="col-3">
+                        <span>{{customer?.map_id || 'N/A'}}</span>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    
+                    <label class="col-3">Tariff Code</label>
+                    <p class="col-3">
+                        <span>{{customer?.newtariffcode || tariff?.tariffcode}}</span>
+                    </p>
+                    <label class="col-3">Tariff Description</label>
+                    <p class="col-3">
+                        <span>{{tariff?.description || 'N/A'}}</span>
+                    </p>
+                </div>
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    
+                    <label class="col-3">State</label>
+                    <p class="col-3">
+                        <span>{{customer?.state +' State' || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Business Unit</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.buid || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">UTID</label>
+                    <p class="col-3" >
+                        <span>{{customer?.utid || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Transformer ID</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.transid || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">Operator Name</label>
+                    <p class="col-3" >
+                        <span>{{customer?.operatorname || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Operator Modified</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.operatormodified || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">Last Modified Date</label>
+                    <p class="col-3" >
+                        <span>{{customer?.lastmodifieddate || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Activated</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.activated || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li >
+                <div class="col-12 row g-3">
+                    <label class="col-3">Modified Count</label>
+                    <p class="col-3" >
+                        <span>{{customer?.modifiedcount || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Service Band</label>
+                    <p class="col-3"  >
+                        <span>{{customer?.service_band || 'N/A'}}</span>
+                    </p>
+                </div>
+                
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    <label class="col-3">Arrears Balance</label>
+                    <p class="col-3">
+                        <span>{{customer?.arrearsbalance  || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Application Date</label>
+                    <p class="col-3">
+                        <span>{{customer?.applicationdate || 'N/A'}}</span>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    <label class="col-3">Guarantor Name</label>
+                    <p class="col-3">
+                        <span>{{customer?.guarantorname  || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Guarantor Address</label>
+                    <p class="col-3">
+                        <span>{{customer?.guarantoraddress || 'N/A'}}</span>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div class="col-12 row g-3">
+                    <label class="col-3">Open Date</label>
+                    <p class="col-3" >
+                        <span>{{customer?.opendate || 'N/A'}}</span>
+                    </p>
+                    <label class="col-3">Gis Coordinates</label>
+                    <p class="col-3" >
+                        <span>{{customer?.giscoordinate || 'N/A'}}</span>
+                    </p>
+                </div>
+            </li>
+           
+            
+        </ul>
+      
+        
+        
+    </div><!-- data-list -->
+</div><!-- .nk-block -->

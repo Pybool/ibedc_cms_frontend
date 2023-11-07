@@ -1,0 +1,24 @@
+select{
+    font-size:13px!important;
+}
+
+.up{
+    width:5px;
+    height:5px;
+    color:lightgreen;
+    text-transform: capitalize;
+}
+
+.up-fresh{
+    width:5px;
+    height:5px;
+    color:skyblue;
+    text-transform: capitalize;
+}
+
+.up-unfresh{
+    width:5px;
+    height:5px;
+    color:orange;
+    text-transform: capitalize;
+}

@@ -1,0 +1,10 @@
+.flex-row-end{
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.dataTables_wrapper{
+    max-height:70vh!important;
+    overflow-y:auto;
+}

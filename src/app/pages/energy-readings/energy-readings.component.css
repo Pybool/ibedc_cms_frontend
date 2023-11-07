@@ -1,0 +1,4 @@
+.t-header,.sub-text{
+    text-transform: capitalize!important;
+    white-space: nowrap!important;
+}

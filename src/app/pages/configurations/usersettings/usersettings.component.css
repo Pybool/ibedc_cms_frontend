@@ -1,0 +1,15 @@
+.precedence-input{
+    width:50px;
+    text-align:center;
+    border-radius:13px;
+    background:white!important;
+    padding:5px;
+}
+
+select{
+    font-size:13px!important;
+}
+
+button{
+    height:40px;
+}

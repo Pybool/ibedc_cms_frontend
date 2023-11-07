@@ -1,0 +1,128 @@
+<div class="nk-content ">
+    <div class="container-fluid">
+       <div class="nk-content-inner">
+          <div class="nk-content-body">
+             <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                   <div class="nk-block-head-content">
+                      <h3 class="nk-block-title page-title">Energy Readings</h3>
+                      <div class="nk-block-des text-soft row">
+                        <p>{{totalReadingsCount}} Energy readings found</p>
+                      </div>
+                   </div>
+                   <div class="nk-block-head-content">
+                      <div class="toggle-wrap nk-block-tools-toggle">
+                         <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div id="energy-spinner-wrapper"></div>
+             <div class="nk-block">
+                <div class="card card-bordered card-stretch">
+                   <div class="card-inner-group">
+                      <div class="card-inner position-relative card-tools-toggle">
+                         <div class="card-title-group">
+                            <div class="card-tools">
+                               <div class="form-inline flex-nowrap gx-3">
+                                  <div class="flex-row">
+                                     <select [(ngModel)]="filter.year" style="width:150px;text-align: center;" class="form-select" data-search="off" data-placeholder="Bulk Action" aria-hidden="true">
+                                       <option disabled value="Year" >Year</option>
+                                        <option *ngFor="let year of yearCollection;" value="{{year}}">{{year}}</option>
+                                     </select>
+                                     <select  [(ngModel)]="filter.month" style="width:150px;text-align: center;" class="form-select" data-search="off" data-placeholder="Bulk Action" aria-hidden="true">
+                                       <option disabled value="Month" >Month</option>
+                                        <option *ngFor="let month of monthCollection;" value="{{month}}">{{month}}</option>
+                                     </select>
+                                     <select  [(ngModel)]="filter.eventType" style="width:300px;text-align: center;" class="form-select" data-search="off" data-placeholder="Bulk Action" aria-hidden="true">
+                                       <option disabled value="Event" >Event Type</option>
+                                        <option *ngFor="let eventType of eventTypes;" value="{{eventType}}">{{eventType}}</option>
+                                     </select>
+                                  </div>
+                                  <div class="btn-wrap"><button (click)="filterReadings()" class="btn btn-dim btn-outline-light">Apply</button> </div>
+                           
+                               </div>
+                            </div>
+                         
+                         </div>
+                      
+                      </div>
+                      
+                      <div style="max-width:150vh;max-height:60vh;overflow-y:auto;overflow-x: auto;" class="card-inner p-0">
+                         <div  class="nk-tb-list nk-tb-ulist">
+                            <div class="nk-tb-item nk-tb-head">
+                              <div class="nk-tb-col"><span class="sub-text">Event Type</span></div>
+                               <div class="nk-tb-col"><span class="sub-text">Meter No</span></div>
+                               <div class="nk-tb-col"><span class="sub-text">Date</span></div>
+                               <div class="nk-tb-col tb-col-mb"><span class="sub-text">Descr</span></div>
+                               <div class="nk-tb-col tb-col-lg"><span class="sub-text">Begin Time</span></div>
+                               <div class="nk-tb-col tb-col-xxl"><span class="sub-text">End Time</span></div>
+                               <div class="nk-tb-col"><span class="sub-text">KWH ABS</span></div>
+                               <div class="nk-tb-col"><span class="sub-text">KWH ABS START</span></div>
+                               <div class="nk-tb-col tb-col-mb"><span class="sub-text">KWH IMPORT</span></div>
+                               <div class="nk-tb-col tb-col-md"><span class="sub-text">KWH EXPORT</span></div>
+                               <div class="nk-tb-col tb-col-lg"><span class="sub-text">KWH ABS END</span></div>
+                               <div class="nk-tb-col tb-col-xxl"><span class="sub-text">REGION</span></div>
+                               <div class="nk-tb-col tb-col-md"><span class="sub-text">BIZ HUB</span></div>
+                               <div class="nk-tb-col tb-col-lg"><span class="sub-text">TRANS</span></div>
+                               <div class="nk-tb-col tb-col-xxl"><span class="sub-text">CONSUMPTION</span></div>
+                             
+                            </div>
+
+                            <div *ngFor="let energyReading of energyReadings" class="nk-tb-item">
+                               <div class="nk-tb-col tb-col-mb"><span class="t-header">{{activeEventType}}</span></div>
+                               <div class="nk-tb-col tb-col-mb"><span class="t-header">{{energyReading?.MSNO}}</span></div>
+                               <div class="nk-tb-col tb-col-md"><span class="tb-status t-header text-success">{{energyReading?.DATE}}</span></div>
+                               <div class="nk-tb-col tb-col-lg"><span class="t-header">{{energyReading?.Descr}}</span></div>
+                               <div class="nk-tb-col tb-col-xxl"><span class="t-header">{{energyReading?.BEGINTIME}}</span></div>
+                               <div class="nk-tb-col tb-col-lg"><span class="t-header">{{energyReading?.ENDTIME}}</span></div>
+                               <div class="nk-tb-col tb-col-xxl"><span class="t-header">{{energyReading?.KWH_ABS}}</span></div>
+                               <div class="nk-tb-col tb-col-md"><span class="tb-status t-header text-success">{{energyReading?.KWH_ABS_START}}</span></div>
+                               <div class="nk-tb-col tb-col-mb"><span class="t-header">{{energyReading?.KWH_IMPORT}}</span></div>
+                               <div class="nk-tb-col tb-col-md"><span class="tb-status t-header text-success">{{energyReading?.KWH_EXPORT}}</span></div>
+                               <div class="nk-tb-col tb-col-lg"><span class="t-header">{{energyReading?.KWH_ABS_END}}</span></div>
+                               <div class="nk-tb-col tb-col-xxl"><span class="t-header">{{energyReading?.Region}}</span></div>
+                               <div class="nk-tb-col tb-col-lg"><span class="t-header">{{energyReading?.BusinessHub}}</span></div>
+                               <div class="nk-tb-col tb-col-xxl"><span class="t-header">{{energyReading?.Transformer}}</span></div>
+                               <div class="nk-tb-col tb-col-md"><span class="tb-status t-header text-success">{{energyReading?.consumption}}</span></div>
+                            </div>
+                            
+                        
+                         </div>
+                      </div>
+                      <!-- <div class="card-inner">
+                         <div class="nk-block-between-md g-3">
+                            <div class="g">
+                               <ul class="pagination justify-content-center justify-content-md-start">
+                                  <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                  <li class="page-item"><span class="page-link"><em class="icon ni ni-more-h"></em></span></li>
+                                  <li class="page-item"><a class="page-link" href="#">6</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">7</a></li>
+                                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                               </ul>
+                            </div>
+                            <div class="g">
+                               <div class="pagination-goto d-flex justify-content-center justify-content-md-start gx-3">
+                                  <div>Page</div>
+                                  <div>
+                                     <select class="form-select js-select2 select2-hidden-accessible" data-search="on" data-dropdown="xs center" data-select2-id="10" tabindex="-1" aria-hidden="true">
+                                        <option value="page-1" data-select2-id="12">1</option>
+                                        <option value="page-2">2</option>
+                                     </select>
+                                     <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="11" style="width: 81px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-fyhu-container"><span class="select2-selection__rendered" id="select2-fyhu-container" role="textbox" aria-readonly="true" title="1">1</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                  </div>
+                                  <div>OF 102</div>
+                               </div>
+                            </div>
+                         </div>
+                      </div> -->
+                      <app-pagination (dataEvent)="receivePaginationData($event)"></app-pagination>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+ </div>

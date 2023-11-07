@@ -1,0 +1,239 @@
+<div class="nk-header nk-header-fixed nk-header-fluid">
+    <div class="container-fluid">
+        <div class="nk-header-wrap">
+            <div class="nk-menu-trigger d-xl-none ms-n1"><a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a></div>
+            <div class="nk-header-brand d-xl-none"><a href="index-2.html" class="logo-link"><img class="logo-light logo-img" src="/assets/images/smarthome-logo.jpg" srcset="/demo7/images/logo2x.png 2x" alt="logo"><img class="logo-dark logo-img" src="/assets/images/smarthome-logo.jpg" srcset="/demo7/images/logo-dark2x.png 2x" alt="logo-dark"></a></div>
+            
+            <input (keydown.enter)="usersFilter($event,true)" id="user-search-bar"  type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a user by name email, region, buid, servicecenter">
+          
+             <div  class="nk-header-tools">
+                <ul class="nk-quick-nav">
+                    <li>
+                        <div class="dropdown">
+                            <a id="searchbar_filter" style="height:35px;" href="#" class="btn btn-white btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Select a Filter&nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
+                            <div class="dropdown-menu" >
+                                <ul class="link-list-opt">
+                                    <li><a href="javascript:void(0)" name="business_unit" (click)="usersFilter($event)">Business Units</a></li>
+                                    <li><a href="javascript:void(0)" name="servicecenter" (click)="usersFilter($event)">Service Centers</a></li>
+                                    <li><a href="javascript:void(0)" name="region" (click)="usersFilter($event)">Regions</a></li>
+                                 </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown user-dropdown">
+                        <a href="javascript:void(0)" class="dropdown-toggle me-n1" data-bs-toggle="dropdown">
+                            <div class="user-toggle">
+                                <div class="user-avatar sm"><em class="icon ni ni-user-alt"></em></div>
+                            </div>
+                        </a>
+                        <div style="width:400px!important;" class="dropdown-menu dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-inner user-card-wrap bg-lighter">
+                                <div class="user-card">
+                                    <div class="user-avatar"><span>{{abbreviateName(user.name)}}</span></div>
+                                    <div class="user-info"><span class="lead-text">{{user.name}}</span><span class="sub-text">{{user.email}}</span></div>
+                                </div>
+                            </div>
+                            <div  style="width:500px!important;" class="dropdown-inner">
+                                <ul class="link-list-opt">
+                                    <li><a style="white-space: nowrap;" *ngIf="user.permission_hierarchy == 'Business Unit'" href="javascript:void(0)"  style="width:100%;">
+                                        {{user.position}}: {{user.business_unit | uppercase}}
+                                        </a>
+                                        <a *ngIf="user.permission_hierarchy == 'Service Center'" href="javascript:void(0)"  style="width:100%;">
+                                        {{user.position}}: {{user.service_center | uppercase}}
+                                        </a>
+                                        <a *ngIf="user.permission_hierarchy == 'Region'" href="javascript:void(0)"  style="width:100%;">
+                                        {{user.position}}: {{user.region | uppercase}}
+                                        </a>
+                                        <a *ngIf="user.permission_hierarchy == 'Head Quarters'" href="javascript:void(0)"  style="width:100%;">
+                                        {{user.position}}: {{user.region | uppercase}}
+                                        </a>
+                                     </li>
+                                     <li><a href="javascript:void(0)" ><em class="icon ni ni-signout"></em><span>Region: {{user.region.toUpperCase()}}</span></a></li>
+                                     <li *ngIf="user.position.includes('BHM') || user.position.includes('ADT') || user.can_create_customer"><a href="javascript:void(0)" onclick="document.getElementById('pending_view').click()" style="width:100%;">
+                                        <em class="icon ni ni-update"></em>CRMD Customers Board
+                                        </a>
+                                     </li>
+                                     <li><a href="javascript:void(0)" (click)="logout()"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                  </ul>
+                            </div>
+                           
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div style="padding-top: 100px;" class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Ibedc CMS Users</h3>
+                            <div class="nk-block-des text-soft">
+                                <p>You have total of {{totalUsers}} Users.</p>
+                            </div>
+                        </div>
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                                <a class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                <div class="toggle-expand-content show" data-content="pageMenu">
+                                    <ul class="nk-block-tools g-3">
+                                        <li><a  (click)="createUserForm()" class="btn btn-white btn-outline-light"><em class="icon ni ni-download-cloud"></em><span>New User</span></a></li>
+                                        <li class="nk-block-tools-opt">
+                                            <a (click)="createUserForm()" class="dropdown-toggle btn btn-icon btn-primary" data-bs-toggle="dropdown"><em class="icon ni ni-plus"></em></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:98%" class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-inner-group">
+                            <div style="max-height:80%;overflow-y:auto;overflow-x:hidden;" class="card-inner position-relative card-tools-toggle">
+                                <div>
+                                    <div>
+                                        
+                                        <div style="max-height:60vh; min-height:60vh; overflow-y:auto" class="card-inner p-0">
+                                            <div class="nk-tb-list nk-tb-ulist is-compact">
+                                                <div id="spinner-wrapper" class="card-tools me-n1">
+                      
+                                                </div>
+                                                <div class="nk-tb-item nk-tb-head">
+                                                    <div class="nk-tb-col nk-tb-col-check">
+                                                        <div class="custom-control custom-control-sm custom-checkbox notext"><input type="checkbox" class="custom-control-input" id="uid"><label class="custom-control-label" for="uid"></label></div>
+                                                    </div>
+                                                    <div class="nk-tb-col"><b><span class="sub-text">Name</span></b></div>
+                                                    <div class="nk-tb-col tb-col-md"><b><span class="sub-text">Email</span></b></div>
+                                                    <div class="nk-tb-col tb-col-sm"><b><span class="sub-text">Permission Level</span></b></div>
+                                                    <div class="nk-tb-col tb-col-md"><b><span class="sub-text">Region</span></b></div>
+                                                    <div class="nk-tb-col tb-col-md"><b><span class="sub-text">Business Unit</span></b></div>
+                                                    <div class="nk-tb-col tb-col-md"><b><span class="sub-text">Service Center</span></b></div>
+                                                    <!-- <ng-container *ngIf="dev_perm == true">
+                                                        <div class="nk-tb-col tb-col-xxl"><span><b>Groups</b></span></div>
+                                                    </ng-container> -->
+                                                    <!-- <div class="nk-tb-col tb-col-xxl"><b><span class="sub-text">Role</span></b></div> -->
+                                                    <div class="nk-tb-col tb-col-md"><b><span class="sub-text">Position</span></b></div>
+                                                    <div class="nk-tb-col tb-col-md"><b><span class="sub-text">Last SignedIn</span></b></div>
+                                                    <div class="nk-tb-col-sm"><span class="sub-text"><b>Status</b></span></div>
+                                                    <div class="nk-tb-col nk-tb-col-tools text-end">
+                                                        <div class="dropdown">
+                                                            <a href="javascript:void(0)" class="btn btn-xs btn-outline-light btn-icon dropdown-toggle" data-bs-toggle="dropdown" data-offset="0,5"><em class="icon ni ni-plus"></em></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let user of usersData;">
+                                                    <div id="{{user.id}}" style="cursor:pointer;" class="nk-tb-item">
+                                                        <div class="nk-tb-col nk-tb-col-check">
+                                                            <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                <input type="checkbox" class="custom-control-input" name="check" id="{{user.id}}">
+                                                                <label class="custom-control-label" for="{{user.id}}"></label>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="nk-tb-col tb-col-md"><span>{{user.name}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{user.email}}</span></div>
+
+                                                        <div *ngIf="user.permission_hierarchy == 'Service Center'" class="nk-tb-col tb-col-md"><span>Service Center</span></div>
+                                                        <div *ngIf="user.permission_hierarchy == 'Region'" class="nk-tb-col tb-col-md"><span>Regional</span></div>
+                                                        <div *ngIf="user.permission_hierarchy == 'Business Unit'" class="nk-tb-col tb-col-md"><span>Business Unit</span></div>
+                                                        <div *ngIf="user.permission_hierarchy == 'Head Quarters'" class="nk-tb-col tb-col-md"><span>Head Quarters</span></div>
+
+                                                        <div *ngIf="user.region != 'granted'" class="nk-tb-col tb-col-md"><span>{{user.region || ''}}</span></div>
+                                                        <div *ngIf="user.region == 'granted'" class="nk-tb-col tb-col-md"><i style="color:orange" class="material-icons">verified_user</i></div>
+                                                        
+                                                        <div *ngIf="user.business_unit != 'granted'" class="nk-tb-col tb-col-md"><span>{{user.business_unit || ''}}</span></div>
+                                                        <div *ngIf="user.business_unit == 'granted'" class="nk-tb-col tb-col-md"><i style="color:orange" class="material-icons">verified_user</i></div>
+                                                        
+                                                        <div *ngIf="user.servicecenter != 'granted'" class="nk-tb-col tb-col-md"><span>{{user.service_center}}</span></div>
+                                                        <div *ngIf="user.servicecenter == 'granted'" class="nk-tb-col tb-col-md"><i style="color:orange" class="material-icons">verified_user</i></div>
+
+                                                        <!-- <div *ngIf="user.servicecenter == 'granted'" class="nk-tb-col tb-col-md"><i style="color:lightgreen" class="material-icons">verified_user</i></div> -->
+                                                        <!-- <ng-container *ngIf="user.groups.includes('Access Rights') and user.includes('Settings')">
+                                                            <ng-container *ngIf="user['can_approve'];else block1">
+                                                                <div style="color:orange;" class="nk-tb-col tb-col-md">Admin (Can approve)</div>
+                                                            </ng-container>
+                                                            <ng-template #block1>
+                                                                <div style="color:orange;" class="nk-tb-col tb-col-md">Admin</div>
+                                                            </ng-template>
+                                                        </ng-container>  
+                                                        <ng-container *ngIf="user.groups.includes('Settings') and user.includes('Access Rights');else block3">
+                                                            <ng-container *ngIf="user['can_approve'];else block2">
+                                                                <div style="color:purple;" class="nk-tb-col tb-col-md">Root Admin (Can approve)</div>
+                                                            </ng-container>
+                                                            <ng-template #block2>
+                                                                <div style="color:purple;" class="nk-tb-col tb-col-md">Root Admin</div>
+                                                            </ng-template>
+                                                        </ng-container>  
+                                                        <ng-template #block3>
+                                                            <ng-container *ngIf="user['can_approve']">
+                                                                <div style="color:lightgreen;" class="nk-tb-col tb-col-md">Regular (Can approve)</div>
+                                                            </ng-container>
+                                                            <ng-template #block4>
+                                                                <div class="nk-tb-col tb-col-md">Regular</div>
+                                                            </ng-template>
+                                                        </ng-template> -->
+
+                                                        <!-- <div class="nk-tb-col tb-col-xxl" ><span style="padding-left: 30%;">{{user.notifications}}</span></div> -->
+                                                        <div class="nk-tb-col tb-col-lg">
+                                                            <ul class="list-status">
+                                                                <li><em class="icon ni ni-check-circle" [ngClass]="user.text"></em> <span>{{user.position}}</span></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="nk-tb-col tb-col-xxl"><span>{{user.last_login || 'N/A'}}</span></div>
+                                                        <div style="color:orange;" *ngIf="user.active" class="nk-tb-col"><span class="tb-status" [ngClass]="user.text">Active</span></div>
+                                                        <div style="color:gray;" *ngIf="!user.active" class="nk-tb-col"><span class="tb-status" [ngClass]="user.text">Suspended</span></div>
+                                                        <div class="nk-tb-col nk-tb-col-tools">
+                                                            <ul class="nk-tb-actions gx-2">
+                                                                <li (click)="getSingleUser(user.id)" value="{{user.id}}" class="nk-tb-action-hidden"><a class="btn btn-sm btn-icon btn-trigger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Edit" aria-label="Edit"><em id="{{user.public_id}}" title = {{user.name}}  class="icon material-icons">edit</em></a></li>
+                                                                <li (click)="getSuspendUser(user.id)" value="{{user.id}}" class="nk-tb-action-hidden"><a class="btn btn-sm btn-icon btn-trigger" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Suspend" aria-label="Suspend"><em class="icon ni ni-user-cross-fill"></em></a></li>
+                                                                <li>
+                                                                    <div class="drodown">
+                                                                        <a href="#" class="btn btn-sm btn-icon btn-trigger dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                                            <ul class="link-list-opt no-bdr">
+                                                                                <li (click)="getSingleUser(user.id)" value="{{user.id}}"><a href="javascript:void(0)"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
+                                                                                <!-- <li class="divider"></li>
+                                                                                <li (click)="getResetUser2FA(user.id)" value="{{user.id}}"><a href="javascript:void(0)"><em class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a></li>
+                                                                                <li (click)="getSuspendUser(user.id)" value="{{user.id}}"><a href="javascript:void(0)"><em class="icon ni ni-na"></em><span>Suspend User</span></a></li> -->
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <app-pagination (dataEvent)="receivePaginationData($event)"></app-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="row"><app-thermostat></app-thermostat></div> -->
+<div #edituserplaceholder></div>
+<div #createuserplaceholder></div>
+<!-- <app-edituser></app-edituser>
+<app-createuser></app-createuser> -->
+
+
+
+
+
+
+
+
+

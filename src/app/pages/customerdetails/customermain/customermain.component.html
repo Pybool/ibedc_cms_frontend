@@ -1,0 +1,148 @@
+<div class="nk-header nk-header-fixed nk-header-fluid">
+    <div class="container-fluid">
+        <div class="nk-header-wrap">
+            <div class="nk-menu-trigger d-xl-none ms-n1"><a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a></div>
+            <div class="nk-header-brand d-xl-none"><a href="index-2.html" class="logo-link"><img class="logo-light logo-img" src="/assets/images/smarthome-logo.jpg" srcset="/demo7/images/logo2x.png 2x" alt="logo"><img class="logo-dark logo-img" src="/assets/images/smarthome-logo.jpg" srcset="/demo7/images/logo-dark2x.png 2x" alt="logo-dark"></a></div>
+            
+            <input id="customer-search-bar"  type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a customer by account number">
+             <div  class="nk-header-tools">
+                <ul class="nk-quick-nav">
+                    <li>
+                        <div class="dropdown">
+                            <a id="searchbar_filter" style="height:35px;" href="#" class="btn btn-white btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Select a Filter&nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
+                            <div class="dropdown-menu" >
+                                <ul class="link-list-opt">
+                                    <li><a href="javascript:void(0)" (click)="singleCustomerSearchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
+                                 </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown user-dropdown">
+                        <a href="javascript:void(0)" class="dropdown-toggle me-n1" data-bs-toggle="dropdown">
+                            <div class="user-toggle">
+                                <div class="user-avatar sm"><em class="icon ni ni-user-alt"></em></div>
+                            </div>
+                        </a>
+                        <div style="width:400px!important;" class="dropdown-menu dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-inner user-card-wrap bg-lighter">
+                                <div class="user-card">
+                                    <div class="user-avatar"><span>{{abbreviateName(user.name)}}</span></div>
+                                    <div class="user-info"><span class="lead-text">{{user.name}}</span><span class="sub-text">{{user.email}}</span></div>
+                                </div>
+                            </div>
+                            <div  style="width:500px!important;" class="dropdown-inner">
+                                <ul class="link-list-opt">
+                                    <li><a style="white-space: nowrap;" *ngIf="user.permission_hierarchy == 'Business Unit'" href="javascript:void(0)"  style="width:100%;">
+                                        {{user.position}}: {{user.business_unit | uppercase}}
+                                        </a>
+                                        <a *ngIf="user.permission_hierarchy == 'Service Center'" href="javascript:void(0)"  style="width:100%;">
+                                        {{user.position}}: {{user.service_center | uppercase}}
+                                        </a>
+                                        <a *ngIf="user.permission_hierarchy == 'Region'" href="javascript:void(0)"  style="width:100%;">
+                                        {{user.position}}: {{user.region | uppercase}}
+                                        </a>
+                                        <a *ngIf="user.permission_hierarchy == 'Head Quarters'" href="javascript:void(0)"  style="width:100%;">
+                                        {{user.position}}: {{user.region | uppercase}}
+                                        </a>
+                                     </li>
+                                     <li><a href="javascript:void(0)" ><em class="icon ni ni-signout"></em><span>Region: {{user.region.toUpperCase()}}</span></a></li>
+                                     <li *ngIf="user.position.includes('BHM') || user.position.includes('ADT') || user.can_create_customer"><a href="javascript:void(0)" onclick="document.getElementById('pending_view').click()" style="width:100%;">
+                                        <em class="icon ni ni-update"></em>CRMD Customers Board
+                                        </a>
+                                     </li>
+                                     <li><a href="javascript:void(0)" (click)="logout()"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                  </ul>
+                            </div>
+                           
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="nk-content" style="background-color: #f5f6fa;padding-top: 100px;">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+                <input id="accounttype" type = 'text' t-att-value="customerdata['accounttype']" hidden='1' />
+                <!-- <div id="template_parent"></div> -->
+                <div class="nk-content-body">
+                    <div class="nk-block">
+                        <div class="card">
+                            <div class="card-aside-wrap">
+                                <div style="width:100%;" class="card">
+                                    <div id="search-status" class="card-tools me-n1">
+                     
+                                    </div>
+                                    <router-outlet></router-outlet>
+                                </div>
+                                <div class="card-aside card-aside-left user-aside toggle-slide toggle-slide-left toggle-break-lg" data-content="userAside" data-toggle-screen="lg" data-toggle-overlay="true">
+                                    <div class="card-inner-group" >
+<!--                                        
+                                        <div class="card-inner">
+                                            <div class="user-account-info py-0">
+                                                <h6 class="overline-title-alt">OUTSTANDING AMOUNT</h6>
+                                                <div class="user-balance" t-esc="'₦ ' + customerdata['outstanding_amnt'] if customerdata['outstanding_amnt'] != None else '₦ 0.00'"><small class="currency"></small></div>
+                                                <div class="user-balance-sub">Last Payment on: 12/03/2020</div>
+                                            </div>
+                                        </div> -->
+                                        <div class="card-inner p-0">
+                                            <ul class="link-list-menu">
+                                               <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/basic-information')"  ><em class="icon ni ni-user-fill-c"></em><span><b>Personal Infomation</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/billing-information')"  ><em class="icon ni ni-todo-fill pointer"></em><span><b>Billing History</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/payment-information')" ><em class="icon ni ni-money pointer"></em><span><b>Payment History</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/metering-information')"  ><em class="icon ni ni-meter pointer"></em><span><b>Metering Information</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/assets-information')"  ><em class="icon ni ni-property pointer"></em><span><b>Assets Information</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/complaints')" ><em class="icon ni ni-comments pointer"></em><span><b>Complaints</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" (click)="loadCaad($event,'customer/information/caad-information')" ><em class="icon ni ni-user-circle pointer"></em><span><b>CAAD</b></span></a></li>
+                                               <li class="custlink "><a class="pointer" (click)="navigateToPage($event,'customer/information/energy-readings')" ><em class="icon ni ni-user-circle pointer"></em><span><b>Energy Readings</b></span></a></li>
+                                            </ul>
+                                        </div><!-- .card-inner -->
+                                    </div><!-- .card-inner-group -->
+                                </div><!-- card-aside -->
+                            </div><!-- .card-aside-wrap -->
+                        </div><!-- .card -->
+                    </div><!-- .nk-block -->
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="modalAlert" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <a href="javascript:closeModal('modalAlert')" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-success"></em>
+                <h4 id="success-title" class="nk-modal-title"></h4>
+                <div class="nk-modal-text">
+                    <div id="success-msg" class="caption-text"></div>
+                    <span id="success-sub-msg" class="sub-text-sm"></span>
+                </div>
+                <div class="nk-modal-action"><a href="javascript:closeModal('modalAlert')" class="btn btn-lg btn-mw btn-primary" data-bs-dismiss="modal">OK</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" id="fail-modalAlert" style="display: none;" aria-modal="true" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <a href="javascript:closeModal('fail-modalAlert')" class="close" data-bs-dismiss="modal"><em class="icon ni ni-cross"></em></a>
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                <h4 id="fail-title" class="nk-modal-title"></h4>
+                <div class="nk-modal-text">
+                    <p id="fail-msg" class="lead"></p>
+                    <p id="fail-sub-msg" class="text-soft"></p>
+                </div>
+                <div class="nk-modal-action mt-5"><a autofocus="1" href="javascript:closeModal('fail-modalAlert')" class="btn btn-lg btn-mw " data-bs-dismiss="modal">Return</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div style="padding-top:10px;" class="container">
+    <h4 >Customer Complaints</h4>
+    <div id = "norecord_found" style="display:none; color:orange;"></div>
+    
+    <div appDynamicScript>
+        <div
+            src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.js"
+            my-custom-attr="some value"
+        >
+        </div>
+    </div>
+    <br>
+    <div _ngcontent-ltp-c55="" class="card card-bordered" style="height: 70vh;width:100%;">
+        <div _ngcontent-ltp-c55="" class="card-inner-group" style="height: 70vh;width:100%;">
+           <div _ngcontent-ltp-c55="" class="card-inner position-relative card-tools-toggle" style="max-height: 100%; overflow-y: auto; overflow-x: hidden;width:100%;">
+              <div _ngcontent-ltp-c55="" style="width:100%;" >
+                 <div _ngcontent-ltp-c55="" style="width:100%;" >
+       
+                    <div  style="width:100%;" id="complaintswrapper" _ngcontent-ltp-c55="" class="card-inner p-0" style="overflow:hidden">
+                            <app-noresults *ngIf="noResults"></app-noresults>
+                            <table *ngIf="!noResults" style="width:100%;background:#f5f6fa;overflow: auto;opacity: 0;" id="cust_complaints" role="grid" class="nowrap nk-tb-list is-separate shadow no-footer dtr-inline responsive collapsed" data-searching="false" data-auto-responsive="true">
+                        
+                                    <thead id="cust_bills_header" style="position:sticky;top:0;background:white">
+                                        <tr>
+                                            <th class="nk-tb-col">Ticket No</th>
+                                            <th class="nk-tb-col">Source</th>
+                                            <th class="nk-tb-col">Classification</th>
+                                            <th class="nk-tb-col">Content</th>
+                                            <th class="nk-tb-col">Opened At</th>
+                                            <th class="nk-tb-col">Opened By</th>
+                                            <th class="nk-tb-col">Closed At</th>
+                                            <th class="nk-tb-col">closed By</th>
+                                            <th class="nk-tb-col">Escalated</th>
+                                            <th class="nk-tb-col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="background:#f5f6fa;">
+                                        <tr style="background-color: white;height:60px;" class="nk-tb-item" *ngFor="let complaint of complaints;">
+                                            <td class="nk-tb-col">{{complaint.ticket_no}}</td>
+                                            <td class="nk-tb-col">{{complaint.source | uppercase}}</td>
+                                            <td class="nk-tb-col">{{complaint.classification}}</td>
+                                            <td class="nk-tb-col">{{complaint.content}}</td>
+                                            <td class="nk-tb-col">{{complaint.opened_at}}</td>
+                                            <td class="nk-tb-col">{{complaint.crm_opened_by}}</td>
+                                            <td class="nk-tb-col">{{complaint.closed_at}}</td>
+                                            <td class="nk-tb-col">{{complaint.crm_closed_by}}</td>
+                                            <td *ngIf="complaint.escalated=='0'" class="nk-tb-col">NO</td>
+                                            <td *ngIf="complaint.escalated=='1'" class="nk-tb-col">YES</td>
+                                            <td class="nk-tb-col">{{complaint.status | titlecase}}</td>
+                                        </tr>
+                                    </tbody>
+                            </table>
+                     
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <!-- <app-pagination (dataEvent)="receivePaginationData($event)"></app-pagination> -->
+     </div>
+     
+    
+</div>

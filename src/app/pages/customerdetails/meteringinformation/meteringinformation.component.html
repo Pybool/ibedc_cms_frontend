@@ -1,0 +1,152 @@
+<div style="padding-top:10px;" class="container">
+    <div style="width:100%;max-height: 70vh; overflow-y: auto; overflow-x: hidden;">
+    <div class="nk-block-head nk-block-head-lg">
+            <div style="width:100%;" class="nk-block-between">
+                <div style="width:100%;" class="nk-block-head-content">
+                    <div style="width:100%;" class="flex-row">
+                        <h4 style="width:80%;" class="nk-block-title">Customer Metering Information</h4>
+                    </div>
+                    <div class="nk-block-des">
+                        <p>Metering info, for Ibedc Prepaid and PostPaid Customers.</p>
+                    </div>
+                </div>
+            </div>
+        </div><!-- .nk-block-head -->
+        <div class="nk-block">
+            <div class="nk-data data-list">
+                <div class="data-head">
+                    <h6 class="overline-title" t-esc="customerdata['accounttype'] + ' Customer Meter Details'" >Customer Metering Information</h6>
+                </div>
+                <br>
+                <app-noresults *ngIf="noResults"></app-noresults>
+                <ul *ngIf="!noResults" style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li >
+                        <div class="col-12 row g-3">
+                            <label class="col-3">Map ID</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.mapid || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Model</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.meter_model || 'N/A'}}</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Meter NUmber</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.meter_number || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Type</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.meter_type || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Manufacturer</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.meter_manufacturer || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Rating</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.meter_rating || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Voltage Rating</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.v_rating || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Classification</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.meter_classification || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Category</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.meter_category || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Supplier</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.supplier || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Premises Use</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.premises_use || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Premises Type</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.premises_type || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Premises Use</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.premises_use || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Premises Type</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.premises_type || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Supply Address</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.supply_address || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Unique Code</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.unique_code || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                    <li >
+                        <div class="col-12 row g-3">
+                            
+                            <label class="col-3">Progress</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.progress || 'N/A'}}</span>
+                            </a>
+                            <label class="col-3">Status</label>
+                            <a class="col-3" href="javascript:void(0)" >
+                                <span>{{meterData?.status || 'N/A'}}</span>
+                            </a>
+                        </div>
+                        
+                    </li>
+                </ul>
+               
+            </div><!-- data-list -->
+        </div><!-- .nk-block -->
+        </div>
+    </div>

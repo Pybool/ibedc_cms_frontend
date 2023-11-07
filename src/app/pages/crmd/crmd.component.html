@@ -1,0 +1,427 @@
+<div class="nk-header nk-header-fixed nk-header-fluid">
+    <div class="container-fluid">
+        <div class="nk-header-wrap">
+            <div class="nk-menu-trigger d-xl-none ms-n1"><a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a></div>
+            <div class="nk-header-brand d-xl-none"><a href="index-2.html" class="logo-link"><img class="logo-light logo-img" src="/assets/images/smarthome-logo.jpg" srcset="/demo7/images/logo2x.png 2x" alt="logo"><img class="logo-dark logo-img" src="/assets/images/smarthome-logo.jpg" srcset="/demo7/images/logo-dark2x.png 2x" alt="logo-dark"></a></div>
+            <input readonly="user.position!='BHM' && user.position!='ADT'" id="crmd-search-bar"  type="text" style="border: 1px solid #dbdfea!important;" class="form-control form-focus-none" placeholder="Search for a crmd record">
+          
+             <div  class="nk-header-tools">
+                <ul class="nk-quick-nav">
+                    <li>
+                        <div class="dropdown">
+                            <a  disabled="!user.position.includes('BHM') && !user.position.includes('ADT')" id="searchbar_filter" style="height:35px;" href="#" class="btn btn-white btn-outline-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Select a Filter&nbsp;&nbsp;<em class="dd-indc icon ni ni-chevron-right"></em></a>
+                            <div class="dropdown-menu" >
+                                <ul class="link-list-opt">
+                                    <li><a href="javascript:void(0)" (click)="crmdSearchBarFilter($event)" value = "Account Number" name="accountno">Account Number</a></li>
+                                    <li><a href="javascript:void(0)" name="names" (click)="crmdSearchBarFilter($event)">Names</a></li>
+                                    <li><a href="javascript:void(0)" name="mobile" (click)="crmdSearchBarFilter($event)">Phone Number</a></li>
+                                    <li><a href="javascript:void(0)" name="email" (click)="crmdSearchBarFilter($event)">Email</a></li>
+                                    <li><a href="javascript:void(0)" name="address" (click)="crmdSearchBarFilter($event)">Address</a></li>
+                                    <li><a href="javascript:void(0)" name="buid" (click)="crmdSearchBarFilter($event)">Business Unit</a></li>
+                                    <li><a href="javascript:void(0)" name="servicecenter" (click)="crmdSearchBarFilter($event)">Service Centers</a></li>
+                                    <li><a href="javascript:void(0)" name="state" (click)="crmdSearchBarFilter($event)">Region</a></li>
+                                    <li><a href="javascript:void(0)" name="created_by" (click)="crmdSearchBarFilter($event)">Created By</a></li>
+                                 </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="dropdown user-dropdown">
+                        <a href="javascript:void(0)" class="dropdown-toggle me-n1" data-bs-toggle="dropdown">
+                            <div class="user-toggle">
+                                <div class="user-avatar sm"><em class="icon ni ni-user-alt"></em></div>
+                            </div>
+                        </a>
+                        <div style="width:400px!important;" class="dropdown-menu dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-inner user-card-wrap bg-lighter">
+                                <div class="user-card">
+                                    <div class="user-avatar"><span>{{abbreviateName(user.name)}}</span></div>
+                                    <div class="user-info"><span class="lead-text">{{user.name}}</span><span class="sub-text">{{user.email}}</span></div>
+                                </div>
+                            </div>
+                            <div  style="width:500px!important;" class="dropdown-inner">
+                                <ul class="link-list-opt">
+                                    <li><a style="white-space: nowrap;" *ngIf="user.permission_hierarchy == 'Business Unit'" href="javascript:void(0)"  style="width:100%;">
+                                        {{user.position}}: {{user.business_unit | uppercase}}
+                                        </a>
+                                        <a *ngIf="user.permission_hierarchy == 'Service Center'" href="javascript:void(0)"  style="width:100%;">
+                                        {{user.position}}: {{user.service_center | uppercase}}
+                                        </a>
+                                        <a *ngIf="user.permission_hierarchy == 'Region'" href="javascript:void(0)"  style="width:100%;">
+                                        {{user.position}}: {{user.region | uppercase}}
+                                        </a>
+                                        <a *ngIf="user.permission_hierarchy == 'Head Quarters'" href="javascript:void(0)"  style="width:100%;">
+                                        {{user.position}}: {{user.region | uppercase}}
+                                        </a>
+                                     </li>
+                                     <li><a href="javascript:void(0)" ><em class="icon ni ni-signout"></em><span>Region: {{user.region.toUpperCase()}}</span></a></li>
+                                     <li *ngIf="user.position.includes('BHM') || user.position.includes('ADT') || user.can_create_customer" ><a href="javascript:void(0)" onclick="document.getElementById('pending_view').click()" style="width:100%;">
+                                        <em class="icon ni ni-update"></em>CRMD Customers Board
+                                        </a>
+                                     </li>
+                                     <li><a href="javascript:void(0)" (click)="logout()"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                  </ul>
+                            </div>
+                           
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+ </div>
+
+<div style="padding-top: 100px;" class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">IBEDC CRMD</h3>
+                            <div class="nk-block-des text-soft">
+                                <p *ngIf="user.position.includes('BHM') || user.position.includes('ADT')">You have total of {{total_awaiting_customers}} untreated records.</p>
+                            </div>
+                        </div>
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">
+                               <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                               <div  class="toggle-expand-content" data-content="pageMenu">
+                                   <ul class="nk-block-tools g-3">
+                                       <li>
+                                           <div>
+                                           <div class="form-group input-group mb30">
+                                               <input type="text" (change)="handler($event);" placeholder="Start date" name="start_date" class="form-control form_control date-widget" onfocus="(this.type='date')" />
+                                               <input type="text" (change)="handler($event);" placeholder="End date" name="end_date" class="form-control form_control date-widget" onfocus="(this.type='date')" />
+                                           </div>
+                                           </div>
+                                       </li>
+                                   </ul>
+                               </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+                <div style="height:70vh" class="nk-block">
+                    <div style="height:70vh" class="card card-bordered">
+                        <div style="height:70vh" class="card-inner-group">
+                            <div style="max-height:100%;overflow-y:auto;overflow-x:hidden;" class="card-inner position-relative card-tools-toggle">
+                                <div>
+                                    <div>
+                                        <!-- <div class="card-inner position-relative card-tools-toggle">
+                                            <div class="card-title-group">
+                                                <div class="card-tools">
+                                                    <div class="form-inline flex-nowrap gx-3">
+                                                        <div class="form-wrap w-150px">
+                                                            <select class="form-select" data-search="off" data-placeholder="----" >
+                                                                <option value="" data-select2-id="3">Activate</option>
+                                                                <option value="email">Activate</option>
+                                                                <option value="suspend">Suspend queue</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="btn-wrap"><span class="d-none d-md-block"><button (click)="viewMode()" class="btn btn-dim btn-outline-light">Toggle View</button></span><span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span></div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-tools me-n1">
+                                                    <ul class="btn-toolbar gx-1">
+                                                        <li><a href="#" class="btn btn-icon search-toggle toggle-search" data-target="search"><em class="icon ni ni-search"></em></a></li>
+                                                        <li class="btn-toolbar-sep"></li>
+                                                        <li>
+                                                            <div class="toggle-wrap">
+                                                                <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
+                                                                <div class="toggle-content" data-content="cardTools">
+                                                                    <ul class="btn-toolbar gx-1">
+                                                                        <li class="toggle-close"><a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a></li>
+                                                                        <li>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown">
+                                                                                    <div class="dot dot-primary"></div>
+                                                                                    <em class="icon ni ni-filter-alt"></em>
+                                                                                </a>
+                                                                                
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="dropdown">
+                                                                                <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-setting"></em></a>
+                                                                                <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end">
+                                                                                    <ul class="link-check">
+                                                                                        <li><span>Show</span></li>
+                                                                                        <li class="active"><a href="#">10</a></li>
+                                                                                        <li><a href="#">20</a></li>
+                                                                                        <li><a href="#">50</a></li>
+                                                                                    </ul>
+                                                                                    <ul class="link-check">
+                                                                                        <li><span>Order</span></li>
+                                                                                        <li class="active"><a href="#">DESC</a></li>
+                                                                                        <li><a href="#">ASC</a></li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="card-search search-wrap" data-search="search">
+                                                <div class="card-body">
+                                                    <div class="search-content"><a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a><input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by queue or email"><button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button></div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        
+                                        <div style="height:60vh; overflow-y:auto" class="card-inner p-0">
+                                            <div id="search-status" class="card-tools me-n1">
+                     
+                                            </div>
+                                            <div class="nk-tb-list nk-tb-ulist is-compact">
+                                                <div id="spinner-wrapper" class="card-tools me-n1"></div>
+                                                <div style="font-size: larger;font-weight: bold;" *ngIf="!user.position.includes('BHM') && !user.position.includes('ADT')" >To be able to use this page you must be either a Business Hub Manager(BHM) or and Auditor(ADT)</div>
+                                                <div *ngIf="user.position.includes('BHM') || user.position.includes('ADT')"  class="nk-tb-item nk-tb-head">
+                                                    <div class="nk-tb-col nk-tb-col-check">
+                                                        <div class="custom-control custom-control-sm custom-checkbox notext"><input type="checkbox" class="custom-control-input" id="uid"><label class="custom-control-label" for="uid"></label></div>
+                                                    </div>
+                                                    <div class="nk-tb-col"><span><b>Firstname</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Surname</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Othernames</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Account No</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Account Type</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Email</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Mobile</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>City</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Region</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Business Unit</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Service Center</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Created By</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Created Date</b></span></div>
+                                                    <div class="nk-tb-col"><span class="sub-text"><b>Status</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Action</b></span></div>
+                                                    <div class="nk-tb-col"><span><b>Type</b></span></div>
+                                                    
+                                                    
+                                                </div>
+                                                
+                                                <ng-container *ngFor="let queue of awaitingCustomers">
+                                                    <div *ngIf="user.position.includes('BHM') || user.position.includes('ADT')" id="{{queue.name}}" style="cursor:pointer;" class="nk-tb-item">
+                                                        <div class="nk-tb-col nk-tb-col-check">
+                                                            <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                                <input type="checkbox" class="custom-control-input" name="check" id="{{queue.id}}">
+                                                                <label class="custom-control-label" for="{{queue.id}}"></label>
+                                                                &nbsp;<div _ngcontent-mym-c60="" class="user-avatar sm"  [ngStyle]="{'background': 'linear-gradient(to bottom, #' + getRandomColor() + ', #' + getRandomColor() + ')'}"><p _ngcontent-mym-c60="" class="abbr" style="color: white!important;">{{abbreviateName(queue.firstname + ' '+ queue.surname+ ' '+ queue.othernames)}}</p><!--bindings={
+                                                                    "ng-reflect-ng-if": "true"
+                                                                  }--></div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="nk-tb-col tb-col-md"><span><b>{{queue.firstname}}</b></span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span><b>{{queue.surname}}</b></span></div>
+                                                        <div class="nk-tb-col tb-col-md"><span><b>{{queue.othernames}}</b></span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><a style="white-space: nowrap;" class="bold route-link" href="javascript:void(0)" (click)="loadCustomerInformation($event,queue.accountno)">{{queue.accountno}}</a></div>
+                                                        <div class="nk-tb-col tb-col-md"><span>{{queue.accounttype}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.email}}</span></div>
+                                                        <div class="nk-tb-col tb-col-md"><span>{{queue.mobile}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.city}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.region | titlecase}}</span></div>
+                                                        <div class="nk-tb-col tb-col-md"><span>{{queue.buid | titlecase}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.servicecenter | titlecase}}</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>{{queue.created_by}}</span></div>
+                                                        <div class="nk-tb-col tb-col-md"><span>{{queue.created_date}}</span></div>
+                                                        <div *ngIf="queue.status == 'Pending'" class="nk-tb-col tb-col-sm"><span style="color:orange;">{{queue.status | titlecase}}</span></div>
+                                                        <div *ngIf="queue.bhm_approved" class="nk-tb-col tb-col-sm"><span style="color:steelblue;">{{queue.status | titlecase}}</span></div>
+                                                        <div *ngIf="queue.bhm_approved && queue.adt_approved" class="nk-tb-col tb-col-sm"><span style="color:lightgreen;">{{queue.status | titlecase}}</span></div>
+                                                        <div *ngIf="queue.status == 'Declined'" class="nk-tb-col tb-col-sm"><span style="color:red;">{{queue.status | titlecase}}</span></div>
+                                                        
+                                                        <!-- <div *ngIf="queue.servicecenter == 'granted'" class="nk-tb-col tb-col-md"><i style="color:orange" class="material-icons">verified_queue</i></div> --> 
+
+                                                        <div class="nk-tb-col nk-tb-col-tools">
+                                                            <ul class="nk-tb-actions gx-2">
+                                                                <li>
+                                                                    <div class="drodown">
+                                                                        <a href="#" class="btn btn-sm btn-icon btn-trigger dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                                        <div class="dropdown-menu dropdown-menu-end">
+                                                                            <ul class="link-list-opt no-bdr">
+                                                                                <li  value="{{queue.id}}"><a href="javascript:void(0)" (click)="viewAwaitingCustomer($event)"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
+                                                                                <!-- <li class="divider"></li>
+                                                                                <li  value="{{queue.id}}"><a href="javascript:void(0)"><em class="icon ni ni-shield-off"></em><span>Revert</span></a></li>
+                                                                                <li  value="{{queue.id}}"><a href="javascript:void(0)"><em class="icon ni ni-na"></em><span>Approve</span></a></li> -->
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="nk-tb-col tb-col-md">
+                                                            <span *ngIf="queue.is_fresh" class="up-fresh badge badge-dot bg-primary">Fresh</span>
+                                                            <span *ngIf="!queue.is_fresh" class="up-unfresh badge badge-dot bg-primary">Exists</span>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <app-pagination (dataEvent)="receivePaginationData($event)"></app-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="awaiting_customer_details" style="border-left:2px solid ;height:90%;width:55%;border-color:#FF7518; right: 0px; bottom: 0px;" class="nk-add-product toggle-slide toggle-slide-right" data-content="editCustomer" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar='1'>
+    <div class="nk-block-head">
+       <div class="nk-block-head-content">
+          <h5 id="create_edit_user_title" class="nk-block-title"></h5>
+          <div class="nk-block-des">
+             <div class="data-head">
+                <h5 id="form_title" class="overline-title">Awaiting Customer Details</h5>
+             </div>
+          </div>
+          
+       </div>
+    </div>
+    <!-- .nk-block-head -->
+    <div class="nk-block">
+      <div id="accordion" class="accordion">
+         <div class="accordion-item">
+            <a id="basic_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-1">
+               <h6 class="title">Basic Information <sup><span *ngIf="newFieldsBasicInfo?.length > 0" class="up badge badge-dot bg-success">New</span></sup></h6> 
+               <span class="accordion-icon"></span>      
+            </a>
+            <div class="accordion-body collapse" id="accordion-item-1" data-bs-parent="#accordion">
+               <div class="accordion-inner">
+                <ul id="basic-info" style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">Titles <sup><span *ngIf="editedFields.includes('title')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.title || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Firstname <sup><span *ngIf="editedFields.includes('firstname')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.firstname || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Surname <sup><span *ngIf="editedFields.includes('surname')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.surname || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Othernames <sup><span *ngIf="editedFields.includes('othernames')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.othernames || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Gender <sup><span *ngIf="editedFields.includes('gender')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.gender || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Email <sup><span *ngIf="editedFields.includes('email')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.email || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Mobile <sup><span *ngIf="editedFields.includes('mobile')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.mobile || 'N/A'}}</span></a></div></li>
+                </ul>
+               </div>
+            </div>
+         </div>
+         <div class="accordion-item">
+            <a id="account_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-2">
+               <h6 class="title">Accounts Information  <sup><span *ngIf="newFieldsAccountInfo.length > 0" class="up badge badge-dot bg-success">New</span></sup></h6>
+               <span class="accordion-icon"></span>      
+            </a>
+            <div class="accordion-body collapse" id="accordion-item-2" data-bs-parent="#accordion">
+               <div class="accordion-inner">
+                <ul id="account-info" style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">Account Number <sup><span *ngIf="editedFields.includes('accountno')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.accountno || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Account Type <sup><span *ngIf="editedFields.includes('accounttype')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.accounttype || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Customer Type <sup><span *ngIf="editedFields.includes('customer_type')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.customer_type || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Business Type <sup><span *ngIf="editedFields.includes('business_type')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.business_type || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">Status Code <sup><span *ngIf="editedFields.includes('statuscode')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.statuscode || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">CIN <sup><span *ngIf="editedFields.includes('cin')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.cin || 'N/A'}}</span></a></div></li>
+                </ul>
+               </div>
+            </div>
+         </div>
+         <div class="accordion-item">
+            <a id="location_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-3">
+               <h6 class="title">Locations Information <sup><span *ngIf="newFieldsLocationInfo.length > 0" class="up badge badge-dot bg-success">New</span></sup></h6>
+               <span class="accordion-icon"></span>      
+            </a>
+            <div class="accordion-body collapse" id="accordion-item-3" data-bs-parent="#accordion">
+               <div class="accordion-inner">
+                <ul id="location-info" style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">BUILDING DESCRIPTION <sup><span *ngIf="editedFields.includes('building_description')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.building_description || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">PREMISES TYPE <sup><span *ngIf="editedFields.includes('premise_type')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.premise_type || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">ADDRESS <sup><span *ngIf="editedFields.includes('address') || editedFields.includes('address1')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.address1 || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">LOCAL GOVT <sup><span *ngIf="editedFields.includes('lga')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.lga || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">REGION <sup><span *ngIf="editedFields.includes('region')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.region || 'N/A' |titlecase}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">BUSINESS HUB <sup><span *ngIf="editedFields.includes('buid')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.buid || 'N/A' |titlecase}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">SERVICE CENTER <sup><span *ngIf="editedFields.includes('servicecenter')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.servicecenter || 'N/A' |titlecase }}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">CITY <sup><span *ngIf="editedFields.includes('city')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.city || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">STATE <sup><span *ngIf="editedFields.includes('state')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.state || 'N/A'}}</span></a></div></li>
+                </ul>
+               </div>
+            </div>
+         </div>
+         <div class="accordion-item">
+            <a id="asset_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-4">
+               <h6 class="title">Assets Information <sup><span *ngIf="newFieldsAssetsInfo.length > 0" class="up badge badge-dot bg-success">New</span></sup></h6>
+               <span class="accordion-icon"></span>      
+            </a>
+            <div class="accordion-body collapse" id="accordion-item-4" data-bs-parent="#accordion">
+               <div class="accordion-inner">
+                <ul id="assets-info" style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">DSS OWNER <sup><span *ngIf="editedFields.includes('dss_owner')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.dss_owner || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">DSS NAME <sup><span *ngIf="editedFields.includes('dss_name')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.dss_name || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">DSS ID <sup><span *ngIf="editedFields.includes('dss_id')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.dss_id || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">FEEDER TYPE <sup><span *ngIf="editedFields.includes('feeder_type')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.feeder_type || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">FEEDER NAME <sup><span *ngIf="editedFields.includes('feeder_name')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.feeder_name || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">FEEDER ID <sup><span *ngIf="editedFields.includes('feederid')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.feederid || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">SERVICE BAND <sup><span *ngIf="editedFields.includes('service_band')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.service_band || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">INJECTION SUBSTATION <sup><span *ngIf="editedFields.includes('injection_sub_station')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.injection_sub_station || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">METER OEM <sup><span *ngIf="editedFields.includes('meter_oem')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.meter_oem || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">LOW TENSION POLE ID <sup><span *ngIf="editedFields.includes('ltpoleid')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.ltpoleid || 'N/A'}}</span></a></div></li>
+                </ul>
+               </div>
+            </div>
+         </div>
+         <div class="accordion-item">
+            <a id="po_information_accordion" href="javascript:void(0)" (click)="setActive($event)" class="accordion-head" data-bs-toggle="collapse" data-bs-target="#accordion-item-5">
+               <h6 class="title">Property Ownership Information <sup><span *ngIf="newFieldsLandlordInfo.length > 0" class="up badge badge-dot bg-success">New</span></sup></h6>
+               <span class="accordion-icon"></span>      
+            </a>
+            <div class="accordion-body collapse" id="accordion-item-5" data-bs-parent="#accordion">
+               <div class="accordion-inner">
+                <ul style="max-height:50vh;overflow-y: auto;" class="link-list-opt">
+                    <li ><div class="col-12 row g-3"><label class="col-6">LANDLORD NAME <sup><span *ngIf="editedFields.includes('landlord_name')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.landlord_name || 'N/A'}}</span></a></div></li>
+                    <li ><div class="col-12 row g-3"><label class="col-6">LANDLORD PHONE <sup><span *ngIf="editedFields.includes('landlord_phone')" class="up badge badge-dot bg-success">New</span></sup></label><a class="col-6" href="javascript:void(0)" ><span>{{loadedAwaitingCustomer?.landlord_phone || 'N/A'}}</span></a></div></li>
+                </ul>
+               </div>
+            </div>
+         </div>
+         <br>
+         
+        <div class="nk-block-head">
+            <div class="nk-block-head-content">
+                <h5 id="create_view_update_title" class="nk-block-title"></h5>
+                <div class="nk-block-des">
+                    <div class="data-head">
+                        <h5 class="overline-title">Comments/Observations</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-12">
+                <textarea id="comments" rows="4" cols="50" type="text" class="form-control shadow" placeholder="Enter your comments...."></textarea>                                                                        
+            </div>
+        </div>
+        <br/>
+                
+        <div class="col-9 row g-3">
+            <div *ngIf="user.position.includes('BHM') || user.position.includes('ADT')" class="col-3">
+                <button id="approve_btn" (click)="queueAction($event,'approve')"  type="button" style="width:100%;color:white;" class="toggle btn btn-success d-none d-md-inline-flex"><span>Approve</span></button>
+            </div>
+            <div *ngIf="user.position.includes('BHM') || user.position.includes('ADT')" class="col-3">
+                <button id="decline_btn" (click)="queueAction($event,'decline')"  type="button" style="width:100%;color:white;" class="toggle btn btn-warning d-none d-md-inline-flex"><span>Decline</span></button>
+            </div>
+            <div *ngIf="!user.position.includes('BHM') && !user.position.includes('ADT')" class="col-3">Only a business hub manager or Auditor (ADT) can Aprrove or decline</div>
+            <div class="col-3">
+                <button (click)="exitAwaitingCustomer()" type="button" style="width:100%;color:white;" class="toggle btn btn-primary d-none d-md-inline-flex"><span>Exit</span></button>
+            </div>
+            
+        </div>        
+      </div>
+    </div>
+ </div>
+
+
+
+
+
+
+
+
